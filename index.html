@@ -610,8 +610,11 @@
             box-sizing: border-box;
             margin: 2.5rem auto 1rem auto;
             display: flex;
-            gap: 1rem;
+            flex-wrap: wrap;
+            gap: 0.7rem;
         }
+
+        .terminal-btn { padding: 0.6rem 1rem; }
 
         .input-wrapper {
             flex-grow: 1;
@@ -797,7 +800,7 @@
     <p class="shelf-note">
         The four tools above are mine. You can add your own with MANIFEST, and drag any card to reorder the grid —
         it all saves in this browser and goes nowhere else. No account, no server, nothing sent anywhere.
-        Clearing your browser data clears it. What you add is yours alone; nobody else sees it.
+        Clearing your browser data clears it, so BACKUP saves your cards to a file you keep, and RESTORE reads one back. What you add is yours alone; nobody else sees it.
         <span id="shelf-count"></span>
     </p>
 
@@ -808,7 +811,10 @@
             <input type="text" id="search-input" placeholder="type search, command (dicebag, sysinfo), or press Ctrl+K..." onkeyup="handleCommandInput(event)">
         </div>
         <button class="terminal-btn" onclick="openModal()">+ MANIFEST</button>
+        <button class="terminal-btn" id="backup-btn" onclick="backupShelf()" style="display:none">BACKUP</button>
+        <button class="terminal-btn" onclick="document.getElementById('restore-file').click()">RESTORE</button>
         <button class="terminal-btn" id="clear-shelf-btn" onclick="clearShelf()" style="display:none">CLEAR MINE</button>
+        <input type="file" id="restore-file" accept="application/json,.json" style="display:none" onchange="restoreShelf(event)">
     </div>
 
     <!-- Magical Console Log Feed -->
@@ -820,6 +826,8 @@
             <input type="text" class="cmd-palette-input" id="cmd-palette-search" placeholder="Type a command or action (e.g. dicebag, sysinfo)..." onkeyup="filterCommands(event)">
             <div class="cmd-palette-list" id="cmd-palette-list">
                 <div class="cmd-item" onclick="execPaletteCmd('manifest')"><span>Add Your Own Card</span><span>manifest</span></div>
+                <div class="cmd-item" onclick="execPaletteCmd('backup')"><span>Back Up Your Cards To A File</span><span>backup</span></div>
+                <div class="cmd-item" onclick="execPaletteCmd('restore')"><span>Restore Cards From A Backup</span><span>restore</span></div>
                 <div class="cmd-item" onclick="execPaletteCmd('dicebag')"><span>Roll Cyber Dice (1d20)</span><span>dicebag</span></div>
                 <div class="cmd-item" onclick="execPaletteCmd('sysinfo')"><span>Run System Diagnostics</span><span>sysinfo</span></div>
                 <div class="cmd-item" onclick="execPaletteCmd('clear')"><span>Purge Console Memory</span><span>purge</span></div>
@@ -1070,6 +1078,10 @@
             closeCmdPalette();
             if (cmd === 'manifest') {
                 openModal();
+            } else if (cmd === 'backup') {
+                backupShelf();
+            } else if (cmd === 'restore') {
+                document.getElementById('restore-file').click();
             } else if (cmd === 'dicebag') {
                 cmdDicebag('dicebag 1d20');
             } else if (cmd === 'sysinfo') {
@@ -1107,6 +1119,18 @@
                     filterCards();
                     return;
                 }
+                if (val === 'backup') {
+                    input.value = '';
+                    backupShelf();
+                    filterCards();
+                    return;
+                }
+                if (val === 'restore') {
+                    input.value = '';
+                    document.getElementById('restore-file').click();
+                    filterCards();
+                    return;
+                }
                 if (val === 'purge' || val === 'clear') {
                     logConsole(`System memory flushed. Search filter reset.`);
                     input.value = '';
@@ -1114,7 +1138,7 @@
                     return;
                 }
                 if (val === 'help') {
-                    logConsole(`Incantations: manifest, dicebag [XdY], sysinfo, purge, clear, help (or press Ctrl+K)`);
+                    logConsole(`Incantations: manifest, backup, restore, dicebag [XdY], sysinfo, purge, clear, help (or press Ctrl+K)`);
                     input.value = '';
                     return;
                 }
@@ -1248,8 +1272,9 @@
                 grid.appendChild(card);
             });
 
-            const btn = document.getElementById('clear-shelf-btn');
-            btn.style.display = shelf.length ? 'block' : 'none';
+            const shown = shelf.length ? 'block' : 'none';
+            document.getElementById('clear-shelf-btn').style.display = shown;
+            document.getElementById('backup-btn').style.display = shown;
             document.getElementById('shelf-count').innerText =
                 shelf.length ? ` You have ${shelf.length} of your own saved here.` : '';
         }
@@ -1432,6 +1457,109 @@
             renderInventory();
             filterCards();
             logConsole(`Removed: ${entry.title}`);
+        }
+
+        /* --- BACKUP / RESTORE (a plain JSON file, saved by you, read by you) --- */
+        const BACKUP_FORMAT = 'ley-shelf-v1';
+
+        function backupShelf() {
+            if (!shelf.length) return;
+            const payload = {
+                format: BACKUP_FORMAT,
+                saved: new Date().toISOString(),
+                items: shelf,
+                order: order
+            };
+            const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ley-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+            logConsole(`Backed up ${shelf.length} card${shelf.length === 1 ? '' : 's'} to a file.`);
+        }
+
+        // A backup file is untrusted input: every field is coerced to a capped string,
+        // every link revalidated, and every id forced into the 'mine:' namespace so an
+        // import can never shadow or overwrite one of the built-in cards.
+        function cleanEntry(raw, seen) {
+            if (!raw || typeof raw !== 'object') return null;
+            const str = (v, max) => String(v == null ? '' : v).trim().slice(0, max);
+
+            const url = safeUrl(raw.url);
+            const title = str(raw.title, 80);
+            const description = str(raw.description, 120);
+            if (!url || !title || !description) return null;
+
+            let id = str(raw.id, 60);
+            if (!id.startsWith('mine:') || seen.has(id)) {
+                id = 'mine:' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+            }
+            seen.add(id);
+
+            return {
+                id: id,
+                title: title,
+                url: url,
+                description: description,
+                blurb: str(raw.blurb, 240),
+                category: 'app',
+                badge: str(raw.badge, 20) || 'yours',
+                action: str(raw.action, 20) || 'OPEN'
+            };
+        }
+
+        function restoreShelf(event) {
+            const file = event.target.files && event.target.files[0];
+            event.target.value = '';                 // let the same file be picked twice
+            if (!file) return;
+
+            if (file.size > 1024 * 1024) {
+                logConsole('That file is too large to be a backup.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onerror = () => logConsole('That file could not be read.');
+            reader.onload = () => {
+                let data;
+                try {
+                    data = JSON.parse(reader.result);
+                } catch (err) {
+                    logConsole('That file is not a valid backup.');
+                    return;
+                }
+
+                if (!data || data.format !== BACKUP_FORMAT || !Array.isArray(data.items)) {
+                    logConsole('That file is not a ley backup.');
+                    return;
+                }
+
+                const seen = new Set(shelf.map(i => i.id));
+                const incoming = data.items.slice(0, 100).map(r => cleanEntry(r, seen)).filter(Boolean);
+                const skipped = Math.min(data.items.length, 100) - incoming.length;
+
+                if (!incoming.length) {
+                    logConsole('Nothing in that file could be restored.');
+                    return;
+                }
+
+                if (shelf.length && !confirm(`Add ${incoming.length} card(s) from this backup to the ${shelf.length} you already have?`)) return;
+
+                shelf = shelf.concat(incoming);
+                if (Array.isArray(data.order) && !order.length) {
+                    order = data.order.filter(id => typeof id === 'string').slice(0, 200);
+                    saveOrder();
+                }
+                saveShelf();
+                renderInventory();
+                filterCards();
+                logConsole(`Restored ${incoming.length} card${incoming.length === 1 ? '' : 's'}` + (skipped > 0 ? ` \u2014 ${skipped} entr${skipped === 1 ? 'y was' : 'ies were'} skipped as invalid.` : '.'));
+            };
+            reader.readAsText(file);
         }
 
         function clearShelf() {
