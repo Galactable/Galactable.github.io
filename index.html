@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEY // tool index</title>
+    <style>
+        /* --- EXPANDED WIZARD PALETTES --- */
+        body.theme-amber {
+            --bg: #050402; --surface: #0d0a04; --surface-hover: #161206;
+            --text-main: #f1c40f; --text-dim: #967812; --amber: #ffb700;
+            --amber-glow: rgba(255, 183, 0, 0.4); --green: #2ecc71;
+            --green-glow: rgba(46, 204, 113, 0.4); --purple: #9b59b6;
+            --purple-glow: rgba(155, 89, 182, 0.4); --border: #332808;
+            --crt-line: rgba(255, 183, 0, 0.025);
+        }
+        body.theme-green {
+            --bg: #020503; --surface: #040d07; --surface-hover: #081a0e;
+            --text-main: #2ecc71; --text-dim: #196f3d; --amber: #00ff66;
+            --amber-glow: rgba(0, 255, 102, 0.4); --green: #00ffcc;
+            --green-glow: rgba(0, 255, 204, 0.4); --purple: #1abc9c;
+            --purple-glow: rgba(26, 188, 156, 0.4); --border: #0e2e18;
+            --crt-line: rgba(0, 255, 102, 0.025);
+        }
+        body.theme-crimson {
+            --bg: #050202; --surface: #0d0404; --surface-hover: #190808;
+            --text-main: #e74c3c; --text-dim: #8c2319; --amber: #ff4d4d;
+            --amber-glow: rgba(255, 77, 77, 0.4); --green: #f1c40f;
+            --green-glow: rgba(241, 196, 15, 0.4); --purple: #c0392b;
+            --purple-glow: rgba(192, 57, 43, 0.4); --border: #331010;
+            --crt-line: rgba(231, 76, 60, 0.025);
+        }
+        body.theme-synthwave {
+            --bg: #03030d; --surface: #09091c; --surface-hover: #121233;
+            --text-main: #00f0ff; --text-dim: #007780; --amber: #ff007f;
+            --amber-glow: rgba(255, 0, 127, 0.4); --green: #39ff14;
+            --green-glow: rgba(57, 255, 20, 0.4); --purple: #bd00ff;
+            --purple-glow: rgba(189, 0, 255, 0.4); --border: #1a1a47;
+            --crt-line: rgba(0, 240, 255, 0.025);
+        }
+        body.theme-abyss {
+            --bg: #020508; --surface: #050d14; --surface-hover: #0a1824;
+            --text-main: #00bcd4; --text-dim: #00606d; --amber: #00e5ff;
+            --amber-glow: rgba(0, 229, 255, 0.4); --green: #76ff03;
+            --green-glow: rgba(118, 255, 3, 0.4); --purple: #3f51b5;
+            --purple-glow: rgba(63, 81, 181, 0.4); --border: #0e2a3b;
+            --crt-line: rgba(0, 188, 212, 0.025);
+        }
+        body.theme-gold {
+            --bg: #050502; --surface: #0d0c04; --surface-hover: #1c1908;
+            --text-main: #ffd700; --text-dim: #998100; --amber: #ffea00;
+            --amber-glow: rgba(255, 234, 0, 0.4); --green: #ff9100;
+            --green-glow: rgba(255, 145, 0, 0.4); --purple: #ff3d00;
+            --purple-glow: rgba(255, 61, 0, 0.4); --border: #332b0d;
+            --crt-line: rgba(255, 215, 0, 0.025);
+        }
+        body.theme-void {
+            --bg: #030303; --surface: #0a0a0a; --surface-hover: #141414;
+            --text-main: #e0e0e0; --text-dim: #757575; --amber: #ffffff;
+            --amber-glow: rgba(255, 255, 255, 0.2); --green: #9e9e9e;
+            --green-glow: rgba(158, 158, 158, 0.2); --purple: #616161;
+            --purple-glow: rgba(97, 97, 97, 0.3); --border: #212121;
+            --crt-line: rgba(255, 255, 255, 0.015);
+        }
+        body.theme-cyberpunk {
+            --bg: #040209; --surface: #0d0817; --surface-hover: #17102b;
+            --text-main: #00ffcc; --text-dim: #008f72; --amber: #ff0055;
+            --amber-glow: rgba(255, 0, 85, 0.4); --green: #00ffcc;
+            --green-glow: rgba(0, 255, 204, 0.4); --purple: #bd00ff;
+            --purple-glow: rgba(189, 0, 255, 0.4); --border: #22123b;
+            --crt-line: rgba(0, 255, 204, 0.025);
+        }
+        body.theme-matrix {
+            --bg: #010301; --surface: #040a05; --surface-hover: #08170a;
+            --text-main: #00ff41; --text-dim: #008f24; --amber: #adff2f;
+            --amber-glow: rgba(173, 255, 47, 0.4); --green: #00ff41;
+            --green-glow: rgba(0, 255, 65, 0.4); --purple: #32cd32;
+            --purple-glow: rgba(50, 205, 50, 0.4); --border: #0a260e;
+            --crt-line: rgba(0, 255, 65, 0.025);
+        }
+        body.theme-magma {
+            --bg: #050201; --surface: #0f0604; --surface-hover: #1c0b08;
+            --text-main: #ff5500; --text-dim: #993300; --amber: #ffbb00;
+            --amber-glow: rgba(255, 187, 0, 0.4); --green: #ff3300;
+            --green-glow: rgba(255, 51, 0, 0.4); --purple: #cc0000;
+            --purple-glow: rgba(204, 0, 0, 0.4); --border: #381308;
+            --crt-line: rgba(255, 85, 0, 0.025);
+        }
+        body.theme-solaris {
+            --bg: #020308; --surface: #070a14; --surface-hover: #0e1324;
+            --text-main: #4da6ff; --text-dim: #265399; --amber: #ffcc00;
+            --amber-glow: rgba(255, 204, 0, 0.4); --green: #00ffaa;
+            --green-glow: rgba(0, 255, 170, 0.4); --purple: #7000ff;
+            --purple-glow: rgba(112, 0, 255, 0.4); --border: #15223b;
+            --crt-line: rgba(77, 166, 255, 0.025);
+        }
+        body.theme-hacker-ice {
+            --bg: #020405; --surface: #060b0e; --surface-hover: #0d161c;
+            --text-main: #e0f7fc; --text-dim: #5c838f; --amber: #00b4d8;
+            --amber-glow: rgba(0, 180, 216, 0.4); --green: #90e0ef;
+            --green-glow: rgba(144, 224, 239, 0.4); --purple: #0077b6;
+            --purple-glow: rgba(0, 119, 182, 0.4); --border: #142833;
+            --crt-line: rgba(224, 247, 252, 0.02);
+        }
+        body.theme-arcade-neon {
+            --bg: #05010a; --surface: #0e031c; --surface-hover: #190633;
+            --text-main: #ff00ff; --text-dim: #990099; --amber: #00ffff;
+            --amber-glow: rgba(0, 255, 255, 0.4); --green: #39ff14;
+            --green-glow: rgba(57, 255, 20, 0.4); --purple: #ff007f;
+            --purple-glow: rgba(255, 0, 127, 0.4); --border: #2e084d;
+            --crt-line: rgba(255, 0, 255, 0.025);
+        }
+        /* --- POKEHEX SLIME & TORLINK THEME --- */
+        body.theme-pokehex {
+            --bg: #030603; --surface: #081408; --surface-hover: #102610;
+            --text-main: #39ff14; --text-dim: #1e7a0e; --amber: #9d4edd;
+            --amber-glow: rgba(157, 78, 221, 0.4); --green: #39ff14;
+            --green-glow: rgba(57, 255, 20, 0.4); --purple: #7b2cbf;
+            --purple-glow: rgba(123, 44, 191, 0.4); --border: #143314;
+            --crt-line: rgba(57, 255, 20, 0.025);
+        }
+
+        /* --- STATIC LEYLINE SPARKLES (LOW RESOURCE) --- */
+        .magical-sparkles {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 99998;
+            background-image:
+                radial-gradient(1.5px 1.5px at 15% 15%, var(--amber) 1px, transparent 0),
+                radial-gradient(2px 2px at 25% 75%, var(--text-main) 1px, transparent 0),
+                radial-gradient(1px 1px at 45% 45%, var(--green) 1px, transparent 0),
+                radial-gradient(2px 2px at 65% 25%, var(--purple) 1px, transparent 0),
+                radial-gradient(1.5px 1.5px at 85% 85%, var(--amber) 1px, transparent 0),
+                radial-gradient(1px 1px at 10% 90%, var(--text-main) 1px, transparent 0),
+                radial-gradient(2px 2px at 95% 10%, var(--green) 1px, transparent 0),
+                radial-gradient(1.5px 1.5px at 55% 80%, var(--amber) 1px, transparent 0),
+                radial-gradient(1px 1px at 75% 55%, var(--purple) 1px, transparent 0);
+            background-size: 200px 200px;
+            opacity: 0.3;
+        }
+
+        /* --- SUBDUED CRT SCANLINES --- */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(var(--crt-line) 50%, rgba(0, 0, 0, 0.15) 50%);
+            background-size: 100% 4px;
+            z-index: 99999;
+            pointer-events: none;
+        }
+
+        :root {
+            /* No webfont request: use Fira Code if the visitor has it, else the best
+               monospace their OS already ships. Nothing is fetched from a third party. */
+            --mono: 'Fira Code', 'JetBrains Mono', 'Cascadia Code', ui-monospace,
+                    SFMono-Regular, 'SF Mono', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+        }
+
+        body {
+            font-family: var(--mono);
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 2.5rem 1.5rem 5rem 1.5rem;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        /* --- SYSTEM TRAY (BOTTOM RIGHT) --- */
+        .system-tray {
+            position: fixed;
+            bottom: 20px;
+            right: 25px;
+            z-index: 10000;
+            background-color: var(--surface);
+            border: 1px solid var(--text-dim);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            box-shadow: 0 0 15px var(--amber-glow);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            backdrop-filter: blur(4px);
+        }
+
+        .system-tray label {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+        }
+
+        .theme-select {
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 2px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        /* --- MASTHEAD --- */
+        .masthead {
+            max-width: 1100px;
+            width: 100%;
+            box-sizing: border-box;
+            margin: 0 auto 2.5rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.1rem;
+            font-weight: 700;
+            font-size: 3.2rem;
+            letter-spacing: 6px;
+        }
+
+        .masthead-sigil {
+            width: 1.35em;
+            height: 1.35em;
+            flex: 0 0 auto;
+            align-self: center;
+            color: var(--green);
+            filter: drop-shadow(0 0 4px var(--green-glow));
+            overflow: visible;
+        }
+
+        .masthead-sigil .sigil-ring {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.6;
+            opacity: 0.35;
+        }
+
+        .masthead-sigil .sigil-chord {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.6;
+            stroke-linecap: round;
+            opacity: 0.75;
+        }
+
+        .masthead-sigil .sigil-node {
+            fill: currentColor;
+        }
+
+        .masthead-name {
+            color: var(--amber);
+            text-shadow: 0 0 14px var(--amber-glow);
+            padding-left: 6px; /* balances the trailing letter-spacing so LEY sits centred */
+        }
+
+        .masthead-sigil.flip {
+            transform: scaleX(-1);
+        }
+
+        /* --- SECTIONS --- */
+        .terminal-section {
+            max-width: 1100px;
+            width: 100%;
+            box-sizing: border-box;
+            margin: 0 auto 2rem auto;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Locked to strict 3-column layout */
+            gap: 1.25rem;
+            margin-top: 1rem;
+        }
+
+        /* --- CARDS (SQUARE & BALANCED PROPORTIONS) --- */
+        .card {
+            background-color: var(--surface);
+            border-radius: 6px;
+            padding: 1.25rem;
+            text-decoration: none;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            min-height: 175px; /* Ensures a clean, square-ish balanced shape */
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 3px; height: 100%;
+            background: var(--text-dim);
+            transition: background 0.25s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            background-color: var(--surface-hover);
+            border-color: var(--amber);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8), 0 0 12px var(--amber-glow);
+        }
+
+        .card:hover::before {
+            background: var(--amber);
+            box-shadow: 0 0 8px var(--amber-glow);
+        }
+
+        .card-main-link {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: var(--text-main);
+            letter-spacing: 0.5px;
+        }
+
+        .card-description {
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            line-height: 1.45;
+            margin-bottom: 0.55rem;
+        }
+
+        .card-blurb {
+            font-size: 0.78rem;
+            line-height: 1.6;
+            color: var(--text-dim);
+            opacity: 0.8;
+            max-width: 42ch;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed var(--border);
+            padding-top: 0.7rem;
+        }
+
+        .badge {
+            font-size: 0.65rem;
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            background: rgba(155, 89, 182, 0.1);
+            border: 1px solid var(--purple);
+            color: var(--purple);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .badge.green {
+            background: rgba(46, 204, 113, 0.1);
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .badge.amber {
+            background: rgba(255, 183, 0, 0.1);
+            border-color: var(--amber);
+            color: var(--amber);
+        }
+
+        .badge.legendary {
+            background: rgba(255, 215, 0, 0.15);
+            border-color: #ffd700;
+            color: #ffd700;
+            box-shadow: 0 0 6px rgba(255, 215, 0, 0.3);
+        }
+
+        .card-actions-inline {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .launch-btn {
+            color: var(--green);
+            font-weight: 600;
+            font-size: 0.78rem;
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px var(--green-glow);
+        }
+
+        .card:hover .launch-btn {
+            text-shadow: 0 0 10px var(--green);
+        }
+
+        .card.dragging {
+            opacity: 0.4;
+        }
+
+        .card.drop-before {
+            box-shadow: -3px 0 0 var(--amber);
+        }
+
+        .card.drop-after {
+            box-shadow: 3px 0 0 var(--amber);
+        }
+
+        .card-grip {
+            position: absolute;
+            top: 0.6rem;
+            right: 0.7rem;
+            z-index: 2;
+            cursor: grab;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            line-height: 1;
+            user-select: none;
+            touch-action: none;
+            opacity: 0.4;
+            transition: opacity 0.2s ease, color 0.2s ease;
+        }
+
+        .card:hover .card-grip {
+            opacity: 1;
+        }
+
+        @media (hover: none) {
+            .card-grip { opacity: 0.75; font-size: 1.1rem; padding: 0.2rem; }
+        }
+
+        .card-grip:hover {
+            color: var(--amber);
+        }
+
+        .card-grip:active {
+            cursor: grabbing;
+        }
+
+        .icon-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            padding: 0.18rem 0.4rem;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .icon-btn:hover {
+            border-color: var(--amber);
+            color: var(--amber);
+            background: rgba(255,255,255,0.03);
+        }
+
+        /* --- SHELF NOTE & MODAL --- */
+        .shelf-note {
+            max-width: 1100px;
+            width: 100%;
+            box-sizing: border-box;
+            margin: 0 auto 1.5rem auto;
+            font-size: 0.74rem;
+            line-height: 1.6;
+            color: var(--text-dim);
+            opacity: 0.8;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(2, 2, 3, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 100002;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 8vh 1rem;
+            overflow-y: auto;
+        }
+
+        .modal {
+            background-color: var(--surface);
+            border: 1px solid var(--amber);
+            box-shadow: 0 0 40px var(--amber-glow);
+            width: 100%;
+            max-width: 480px;
+            border-radius: 6px;
+            padding: 1.5rem;
+            box-sizing: border-box;
+            height: fit-content;
+        }
+
+        .modal h3 {
+            margin: 0 0 0.4rem 0;
+            color: var(--amber);
+            font-size: 1rem;
+            letter-spacing: 1px;
+            text-shadow: 0 0 6px var(--amber-glow);
+        }
+
+        .modal-note {
+            font-size: 0.72rem;
+            line-height: 1.6;
+            color: var(--text-dim);
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group {
+            margin-bottom: 0.9rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            color: var(--text-dim);
+            margin-bottom: 0.3rem;
+            text-transform: uppercase;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            box-sizing: border-box;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            padding: 0.5rem 0.7rem;
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--amber);
+            box-shadow: 0 0 8px var(--amber-glow);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.6rem;
+            margin-top: 1.3rem;
+        }
+
+        .modal-right-buttons {
+            display: flex;
+            gap: 0.6rem;
+        }
+
+        .modal-actions button {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            padding: 0.45rem 0.9rem;
+            border-radius: 3px;
+            cursor: pointer;
+            background: transparent;
+            transition: all 0.2s ease;
+        }
+
+        .btn-cancel {
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+        }
+
+        .btn-cancel:hover { color: var(--text-main); border-color: var(--text-dim); }
+
+        .btn-delete {
+            border: 1px solid var(--purple);
+            color: var(--purple);
+        }
+
+        .btn-delete:hover { background: var(--purple); color: var(--bg); }
+
+        .btn-submit {
+            border: 1px solid var(--green);
+            color: var(--green);
+        }
+
+        .btn-submit:hover { background: var(--green); color: var(--bg); }
+
+        /* --- COMMAND BAR & CONSOLE LOG --- */
+        .command-bar {
+            max-width: 1100px;
+            width: 100%;
+            box-sizing: border-box;
+            margin: 2.5rem auto 1rem auto;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .input-wrapper {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0.65rem 1rem;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .input-wrapper:focus-within {
+            border-color: var(--amber);
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5), 0 0 10px var(--amber-glow);
+        }
+
+        .prompt-symbol {
+            color: var(--amber);
+            margin-right: 0.75rem;
+            font-weight: 600;
+        }
+
+        #search-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-family: var(--mono);
+            font-size: 0.88rem;
+            outline: none;
+        }
+
+        #search-input::placeholder {
+            color: var(--text-dim);
+        }
+
+        .terminal-btn {
+            background-color: var(--surface);
+            border: 1px solid var(--amber);
+            color: var(--amber);
+            font-family: var(--mono);
+            padding: 0 1.25rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.82rem;
+            letter-spacing: 1px;
+            text-shadow: 0 0 6px var(--amber-glow);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            transition: all 0.2s ease;
+        }
+
+        .terminal-btn:hover {
+            background-color: var(--amber);
+            color: var(--bg);
+            box-shadow: 0 0 15px var(--amber-glow);
+        }
+
+        .console-output {
+            max-width: 1100px;
+            width: 100%;
+            box-sizing: border-box;
+            margin: 0 auto 2rem auto;
+            background: var(--surface);
+            border: 1px dashed var(--border);
+            padding: 0.5rem 1rem;
+            font-size: 0.76rem;
+            color: var(--green);
+            text-shadow: 0 0 4px var(--green-glow);
+            border-radius: 4px;
+            display: none;
+        }
+
+        /* --- COMMAND PALETTE (CTRL+K MODAL) --- */
+        .cmd-palette-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(2, 2, 3, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 100001;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 15vh;
+        }
+
+        .cmd-palette {
+            background-color: var(--surface);
+            border: 1px solid var(--amber);
+            box-shadow: 0 0 40px var(--amber-glow);
+            width: 100%;
+            max-width: 520px;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .cmd-palette-input {
+            width: 100%;
+            background: var(--bg);
+            border: none;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-main);
+            font-family: var(--mono);
+            font-size: 0.95rem;
+            padding: 0.9rem 1.2rem;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .cmd-palette-list {
+            max-height: 260px;
+            overflow-y: auto;
+            padding: 0.4rem 0;
+        }
+
+        .cmd-item {
+            padding: 0.55rem 1.2rem;
+            font-size: 0.82rem;
+            color: var(--text-dim);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cmd-item:hover, .cmd-item.active {
+            background: var(--surface-hover);
+            color: var(--text-main);
+            border-left: 3px solid var(--amber);
+        }
+
+        .cmd-item span:last-child {
+            font-size: 0.68rem;
+            color: var(--amber);
+            border: 1px solid var(--border);
+            padding: 0.1rem 0.3rem;
+            border-radius: 2px;
+        }
+
+    </style>
+</head>
+<body class="theme-amber">
+
+    <!-- MAGICAL SPARKS OVERLAY (STATIC / LOW RESOURCE) -->
+    <div class="magical-sparkles"></div>
+
+    <!-- System Tray / Palette Tool (Bottom Right) -->
+    <div class="system-tray">
+        <label for="theme-selector">THEME:</label>
+        <select id="theme-selector" class="theme-select" onclick="event.stopPropagation()" onchange="changeTheme(this.value)">
+            <option value="theme-amber">WIZARD_AMBER</option>
+            <option value="theme-green">NECRO_GREEN</option>
+            <option value="theme-crimson">BLOOD_MOON</option>
+            <option value="theme-synthwave">SYNTH_GRID</option>
+            <option value="theme-abyss">DEEP_ABYSS</option>
+            <option value="theme-gold">ROYAL_GOLD</option>
+            <option value="theme-void">VOID_MONO</option>
+            <option value="theme-cyberpunk">CYBER_PUNK</option>
+            <option value="theme-matrix">MATRIX_NEON</option>
+            <option value="theme-magma">MOLTEN_MAGMA</option>
+            <option value="theme-solaris">SOLARIS_DEEP</option>
+            <option value="theme-hacker-ice">HACKER_ICE</option>
+            <option value="theme-arcade-neon">ARCADE_LASER</option>
+            <option value="theme-pokehex">POKEHEX_SLIME (SLIME &amp; TORLINK)</option>
+        </select>
+    </div>
+
+    <!-- Masthead -->
+    <header class="masthead">
+        <svg class="masthead-sigil" id="masthead-sigil-l" viewBox="-50 -50 100 100" aria-hidden="true"></svg>
+        <span class="masthead-name">ley</span>
+        <svg class="masthead-sigil flip" id="masthead-sigil-r" viewBox="-50 -50 100 100" aria-hidden="true"></svg>
+    </header>
+
+    <!-- Tool Grid -->
+    <main>
+        <section class="terminal-section">
+            <div class="grid" id="grid"></div>
+        </section>
+    </main>
+
+    <p class="shelf-note">
+        The four tools above are mine. You can add your own with MANIFEST, and drag any card to reorder the grid —
+        it all saves in this browser and goes nowhere else. No account, no server, nothing sent anywhere.
+        Clearing your browser data clears it. What you add is yours alone; nobody else sees it.
+        <span id="shelf-count"></span>
+    </p>
+
+    <!-- Command Bar & Search Bar -->
+    <div class="command-bar">
+        <div class="input-wrapper">
+            <span class="prompt-symbol">&gt;</span>
+            <input type="text" id="search-input" placeholder="type search, command (dicebag, sysinfo), or press Ctrl+K..." onkeyup="handleCommandInput(event)">
+        </div>
+        <button class="terminal-btn" onclick="openModal()">+ MANIFEST</button>
+        <button class="terminal-btn" id="clear-shelf-btn" onclick="clearShelf()" style="display:none">CLEAR MINE</button>
+    </div>
+
+    <!-- Magical Console Log Feed -->
+    <div class="console-output" id="console-output">&gt; SYSTEM READY. LEYLINE LINK ESTABLISHED.</div>
+
+    <!-- Command Palette Modal (Ctrl+K) -->
+    <div class="cmd-palette-overlay" id="cmd-palette-modal" onclick="closeCmdPalette(event)">
+        <div class="cmd-palette" onclick="event.stopPropagation()">
+            <input type="text" class="cmd-palette-input" id="cmd-palette-search" placeholder="Type a command or action (e.g. dicebag, sysinfo)..." onkeyup="filterCommands(event)">
+            <div class="cmd-palette-list" id="cmd-palette-list">
+                <div class="cmd-item" onclick="execPaletteCmd('manifest')"><span>Add Your Own Card</span><span>manifest</span></div>
+                <div class="cmd-item" onclick="execPaletteCmd('dicebag')"><span>Roll Cyber Dice (1d20)</span><span>dicebag</span></div>
+                <div class="cmd-item" onclick="execPaletteCmd('sysinfo')"><span>Run System Diagnostics</span><span>sysinfo</span></div>
+                <div class="cmd-item" onclick="execPaletteCmd('clear')"><span>Purge Console Memory</span><span>purge</span></div>
+                <div class="cmd-item" onclick="execPaletteCmd('theme-amber')"><span>Shift Theme: Wizard Amber</span><span>theme</span></div>
+                <div class="cmd-item" onclick="execPaletteCmd('theme-green')"><span>Shift Theme: Necro Green</span><span>theme</span></div>
+                <div class="cmd-item" onclick="execPaletteCmd('theme-crimson')"><span>Shift Theme: Blood Moon</span><span>theme</span></div>
+                <div class="cmd-item" onclick="execPaletteCmd('theme-synthwave')"><span>Shift Theme: Synth Grid</span><span>theme</span></div>
+                <div class="cmd-item" onclick="execPaletteCmd('theme-abyss')"><span>Shift Theme: Deep Abyss</span><span>theme</span></div>
+                <div class="cmd-item" onclick="execPaletteCmd('theme-gold')"><span>Shift Theme: Royal Gold</span><span>theme</span></div>
+                <div class="cmd-item" onclick="execPaletteCmd('theme-void')"><span>Shift Theme: Void Mono</span><span>theme</span></div>
+                <div class="cmd-item" onclick="execPaletteCmd('theme-cyberpunk')"><span>Shift Theme: Cyberpunk Neon</span><span>theme</span></div>
+                <div class="cmd-item" onclick="execPaletteCmd('theme-matrix')"><span>Shift Theme: Matrix Green</span><span>theme</span></div>
+                <div class="cmd-item" onclick="execPaletteCmd('theme-magma')"><span>Shift Theme: Molten Magma</span><span>theme</span></div>
+                <div class="cmd-item" onclick="execPaletteCmd('theme-solaris')"><span>Shift Theme: Solaris Deep</span><span>theme</span></div>
+                <div class="cmd-item" onclick="execPaletteCmd('theme-hacker-ice')"><span>Shift Theme: Hacker Ice</span><span>theme</span></div>
+                <div class="cmd-item" onclick="execPaletteCmd('theme-arcade-neon')"><span>Shift Theme: Arcade Laser</span><span>theme</span></div>
+                <div class="cmd-item" onclick="execPaletteCmd('theme-pokehex')"><span>Shift Theme: Pokéhex Slime &amp; Torlink</span><span>theme</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manifest / Edit Modal -->
+    <div class="modal-overlay" id="add-modal" onclick="if(event.target.id === 'add-modal') closeModal()">
+        <div class="modal">
+            <h3 id="modal-heading">&gt; MANIFEST NEW ITEM</h3>
+            <p class="modal-note">
+                Saved in this browser only. Not sent anywhere, not visible to anyone else, and gone if you clear your browser data.
+            </p>
+            <form id="item-form" onsubmit="saveItem(event)">
+                <input type="hidden" id="item-id" value="">
+
+                <div class="form-group">
+                    <label for="item-title">Name</label>
+                    <input type="text" id="item-title" placeholder="e.g. ./notes" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="item-url">Link</label>
+                    <input type="text" id="item-url" placeholder="https://example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="item-desc">Short label</label>
+                    <input type="text" id="item-desc" placeholder="What it is, in a few words" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="item-blurb">Description (optional)</label>
+                    <input type="text" id="item-blurb" placeholder="A longer line, if you want one">
+                </div>
+
+                <div class="form-group">
+                    <label for="item-badge">Badge tag (optional)</label>
+                    <input type="text" id="item-badge" placeholder="leave blank for auto">
+                </div>
+
+                <div class="form-group">
+                    <label for="item-action">Action label (optional)</label>
+                    <input type="text" id="item-action" placeholder="e.g. OPEN, LAUNCH">
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-delete" id="delete-btn" onclick="deleteCurrentItem()">[ BANISH ]</button>
+                    <div class="modal-right-buttons">
+                        <button type="button" class="btn-cancel" onclick="closeModal()">CANCEL</button>
+                        <button type="submit" class="btn-submit">SAVE</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const defaultItems = [
+            {
+                id: "ley:fam",
+                title: "./fam",
+                url: "https://galactable.github.io/fam/",
+                description: "Financial Allocation Monitor",
+                blurb: "Budget tracker built on a rolling pay cycle instead of a calendar month — for weekly income. Encrypted, syncs across devices.",
+                category: "app",
+                badge: "relic",
+                action: "ALIGN"
+            },
+            {
+                id: "ley:rol",
+                title: "./rol",
+                url: "https://galactable.github.io/rol/",
+                description: "Rolling Obligations Log",
+                blurb: "A rolling 2–4 week calendar with today at the top. Every day listed, repeating events, per-occurrence ticks.",
+                category: "app",
+                badge: "quest",
+                action: "ALIGN"
+            },
+            {
+                id: "ley:arc",
+                title: "./arc",
+                url: "https://arcrepo.pages.dev/",
+                description: "Arcane Repo Courier",
+                blurb: "Carries HTML to your git repos on the fly using fine-grained personal access tokens.",
+                category: "app",
+                badge: "postman",
+                action: "CALL"
+            },
+            {
+                id: "ley:phx",
+                title: "./phx",
+                url: "https://galactable.github.io/pokehex/",
+                description: "PokéHex market simulator",
+                blurb: "Card-collecting game with a simulated market economy — prices move with supply, rarity and player trades.",
+                category: "game",
+                badge: "dungeon",
+                action: "ENTER"
+            }
+        ];
+
+        const CANON = defaultItems;
+        const SHELF_KEY = 'ley_shelf';
+        const ORDER_KEY = 'ley_order';
+
+        function readJSON(key, fallback) {
+            try {
+                const raw = localStorage.getItem(key);
+                return raw ? JSON.parse(raw) : fallback;
+            } catch (err) {
+                return fallback;
+            }
+        }
+
+        let shelf = readJSON(SHELF_KEY, []);
+        let order = readJSON(ORDER_KEY, []);
+
+        function saveShelf() { localStorage.setItem(SHELF_KEY, JSON.stringify(shelf)); }
+        function saveOrder() { localStorage.setItem(ORDER_KEY, JSON.stringify(order)); }
+
+        // CANON always renders; the visitor's own cards sit alongside it.
+        // Saved order is advisory: unknown ids are dropped, unlisted items keep natural position.
+        function visibleItems() {
+            const all = CANON.concat(shelf);
+            const byId = new Map(all.map(i => [i.id, i]));
+            const out = [];
+            order.forEach(id => {
+                if (byId.has(id)) { out.push(byId.get(id)); byId.delete(id); }
+            });
+            all.forEach(i => { if (byId.has(i.id)) out.push(i); });
+            return out;
+        }
+        const THEME_KEY = 'ley_theme';
+        // One-time carry-over from the old key so a saved theme is not lost.
+        const legacyTheme = localStorage.getItem('wizard_theme');
+        if (legacyTheme && !localStorage.getItem(THEME_KEY)) {
+            localStorage.setItem(THEME_KEY, legacyTheme);
+        }
+        localStorage.removeItem('wizard_theme');
+
+        let currentTheme = localStorage.getItem(THEME_KEY) || 'theme-amber';
+
+        document.body.className = currentTheme;
+        document.getElementById('theme-selector').value = currentTheme;
+
+        function changeTheme(themeName) {
+            document.body.className = themeName;
+            localStorage.setItem(THEME_KEY, themeName);
+            
+            const selectEl = document.getElementById('theme-selector');
+            const matchingOption = Array.from(selectEl.options).find(opt => opt.value === themeName);
+            const displayName = matchingOption ? matchingOption.text : themeName.replace('theme-', '').toUpperCase();
+
+            logConsole(`Theme shifted to ${displayName}`);
+        }
+
+        function logConsole(message) {
+            const consoleBox = document.getElementById('console-output');
+            consoleBox.style.display = 'block';
+            consoleBox.innerHTML = `&gt; ${message}`;
+        }
+
+        function cmdDicebag(cmdString) {
+            const parts = cmdString.trim().split(' ');
+            const input = parts[1] || "1d20";
+            const diceParts = input.toLowerCase().split('d');
+            
+            const count = parseInt(diceParts[0]) || 1;
+            const sides = parseInt(diceParts[1]) || 20;
+            
+            let total = 0;
+            let rolls = [];
+            
+            for (let i = 0; i < count; i++) {
+                const roll = Math.floor(Math.random() * sides) + 1;
+                rolls.push(roll);
+                total += roll;
+            }
+            
+            logConsole(`> Dicebag [${input}]: [${rolls.join(', ')}] = Total: ${total}`);
+        }
+
+        // Reports only things that are actually true of this page right now.
+        function cmdSysInfo() {
+            const theme = (document.body.className || 'theme-void').replace('theme-', '').toUpperCase();
+            const sigil = window.sigilSpec
+                ? `${window.sigilSpec.points}-point / step ${window.sigilSpec.step}${window.sigilSpec.second ? ' + ' + window.sigilSpec.second : ''}`
+                : 'none';
+            const loaded = Math.round(performance.now());
+            logConsole(
+                `LEY — ${CANON.length} tools indexed, ${shelf.length} of yours | sigil: ${sigil} (redrawn every load) ` +
+                `| theme: ${theme} | stored in this browser only | rendered in ${loaded}ms ` +
+                `| ${document.documentElement.clientWidth}×${document.documentElement.clientHeight}px | one file, no build step, no CDN scripts`
+            );
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey && e.key.toLowerCase() === 'k') || (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'SELECT')) {
+                e.preventDefault();
+                openCmdPalette();
+            }
+            if (e.key === 'Escape') {
+                closeCmdPalette();
+                closeModal();
+            }
+        });
+
+        function openCmdPalette() {
+            document.getElementById('cmd-palette-modal').style.display = 'flex';
+            document.getElementById('cmd-palette-search').focus();
+        }
+
+        function closeCmdPalette(event) {
+            if (!event || event.target.id === 'cmd-palette-modal') {
+                document.getElementById('cmd-palette-modal').style.display = 'none';
+            }
+        }
+
+        function filterCommands(e) {
+            const query = e.target.value.toLowerCase();
+            const items = document.querySelectorAll('.cmd-item');
+            items.forEach(item => {
+                const text = item.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function execPaletteCmd(cmd) {
+            closeCmdPalette();
+            if (cmd === 'manifest') {
+                openModal();
+            } else if (cmd === 'dicebag') {
+                cmdDicebag('dicebag 1d20');
+            } else if (cmd === 'sysinfo') {
+                cmdSysInfo();
+            } else if (cmd === 'clear') {
+                logConsole(`System memory flushed. Search filter reset.`);
+                document.getElementById('search-input').value = '';
+                filterCards();
+            } else if (cmd.startsWith('theme-')) {
+                changeTheme(cmd);
+                document.getElementById('theme-selector').value = cmd;
+            }
+        }
+
+        function handleCommandInput(event) {
+            const input = document.getElementById('search-input');
+            const val = input.value.trim().toLowerCase();
+
+            if (event.key === 'Enter') {
+                if (val.startsWith('dicebag')) {
+                    cmdDicebag(val);
+                    input.value = '';
+                    filterCards();
+                    return;
+                }
+                if (val === 'sysinfo' || val === 'neofetch') {
+                    cmdSysInfo();
+                    input.value = '';
+                    filterCards();
+                    return;
+                }
+                if (val === 'manifest' || val === 'summon') {
+                    input.value = '';
+                    openModal();
+                    filterCards();
+                    return;
+                }
+                if (val === 'purge' || val === 'clear') {
+                    logConsole(`System memory flushed. Search filter reset.`);
+                    input.value = '';
+                    filterCards();
+                    return;
+                }
+                if (val === 'help') {
+                    logConsole(`Incantations: manifest, dicebag [XdY], sysinfo, purge, clear, help (or press Ctrl+K)`);
+                    input.value = '';
+                    return;
+                }
+            }
+
+            filterCards();
+        }
+
+        // Draws a fresh sigil each load: N points evenly spaced on a ring,
+        // joined by a random step-pattern of chords. Every point stays connected.
+        function drawSigil() {
+            const targets = [
+                document.getElementById('masthead-sigil-l'),
+                document.getElementById('masthead-sigil-r')
+            ].filter(Boolean);
+            if (!targets.length) return;
+
+            const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+            const points = pick([5, 7, 7, 8, 9, 11]);
+            const radius = 38;
+
+            // A step coprime with `points` traces one unbroken path through every node.
+            const gcd = (a, b) => b ? gcd(b, a % b) : a;
+            const steps = [];
+            for (let k = 2; k < points - 1; k++) {
+                if (gcd(k, points) === 1) steps.push(k);
+            }
+            const step = steps.length ? pick(steps) : 1;
+            const doubled = steps.length > 1 && Math.random() < 0.45;
+            const second = doubled ? pick(steps.filter(k => k !== step)) : null;
+
+            // sysinfo reads this so it can describe the sigil actually on screen.
+            window.sigilSpec = { points, step, second };
+
+            const node = i => {
+                const angle = (i / points) * Math.PI * 2 - Math.PI / 2;
+                return [
+                    (Math.cos(angle) * radius).toFixed(2),
+                    (Math.sin(angle) * radius).toFixed(2)
+                ];
+            };
+
+            const path = k => {
+                const d = [];
+                for (let i = 0; i <= points; i++) {
+                    const [x, y] = node((i * k) % points);
+                    d.push((i ? 'L' : 'M') + x + ' ' + y);
+                }
+                return d.join(' ');
+            };
+
+            let markup = '<circle class="sigil-ring" cx="0" cy="0" r="' + radius + '"></circle>';
+            markup += '<path class="sigil-chord" d="' + path(step) + '"></path>';
+            if (second) {
+                markup += '<path class="sigil-chord" style="opacity:0.4" d="' + path(second) + '"></path>';
+            }
+            for (let i = 0; i < points; i++) {
+                const [x, y] = node(i);
+                markup += '<circle class="sigil-node" cx="' + x + '" cy="' + y + '" r="3"></circle>';
+            }
+
+            // Same figure both sides; the right one is mirrored in CSS so they read as a pair.
+            targets.forEach(svg => { svg.innerHTML = markup; });
+        }
+
+        /* Anything a visitor typed is untrusted text, not markup.
+           esc() covers text nodes and quoted attributes; safeUrl() blocks
+           javascript:, data: and anything else that is not plain http(s). */
+        function esc(value) {
+            return String(value == null ? '' : value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function safeUrl(value) {
+            const raw = String(value == null ? '' : value).trim();
+            // Absolute http(s) only. No base URL: resolving relatives would turn
+            // '' into this page and a typo into a dead link on our own origin.
+            if (!/^https?:\/\//i.test(raw)) return '';
+            try {
+                const parsed = new URL(raw);
+                return (parsed.protocol === 'http:' || parsed.protocol === 'https:') ? parsed.href : '';
+            } catch (err) {
+                return '';
+            }
+        }
+
+        function renderInventory() {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '';
+
+            visibleItems().forEach(item => {
+                const mine = shelf.some(i => i.id === item.id);
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.draggable = true;
+                card.dataset.id = item.id;
+                card.setAttribute('data-name', `${item.title} ${item.description} ${item.blurb || ''}`.toLowerCase());
+
+                const badgeClass = item.badge === 'quest' ? 'badge amber' : (item.badge === 'legendary' ? 'badge legendary' : (item.category === 'game' ? 'badge green' : 'badge'));
+                const badgeText = esc(item.badge || (item.category === 'game' ? 'dungeon' : 'relic'));
+                const actionText = esc(item.action || (item.category === 'game' ? 'ENTER' : 'OPEN'));
+                const href = safeUrl(item.url);
+                const title = esc(item.title);
+                const desc = esc(item.description);
+                const blurb = esc(item.blurb || '');
+
+                card.innerHTML = `
+                    <span class="card-grip" title="Drag to reorder">&#10303;</span>
+                    <a href="${href || '#'}" target="_blank" rel="noopener noreferrer" class="card-main-link" draggable="false">
+                        <div>
+                            <div class="card-title">${title}</div>
+                            <div class="card-description">${desc}</div>
+                            ${blurb ? `<div class="card-blurb">${blurb}</div>` : ''}
+                        </div>
+                    </a>
+                    <div class="card-footer">
+                        <span class="${badgeClass}">${badgeText}</span>
+                        <div class="card-actions-inline">
+                            ${mine ? `<button class="icon-btn" onclick="openModal('${esc(item.id)}')" title="Edit your card">[EDIT]</button>` : ''}
+                            <a href="${href || '#'}" target="_blank" rel="noopener noreferrer" style="text-decoration: none;" draggable="false">
+                                <span class="launch-btn">${actionText} &rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+
+            const btn = document.getElementById('clear-shelf-btn');
+            btn.style.display = shelf.length ? 'block' : 'none';
+            document.getElementById('shelf-count').innerText =
+                shelf.length ? ` You have ${shelf.length} of your own saved here.` : '';
+        }
+
+        /* --- DRAG TO REORDER (mouse via HTML5 drag, touch via pointer tracking) --- */
+        let dragId = null;
+
+        function clearDropHints() {
+            document.querySelectorAll('.card').forEach(c => c.classList.remove('drop-before', 'drop-after'));
+        }
+
+        // Which side of `card` a drop at clientX lands on.
+        function dropsBefore(card, clientX) {
+            const box = card.getBoundingClientRect();
+            return clientX < box.left + box.width / 2;
+        }
+
+        function hintDrop(card, before) {
+            clearDropHints();
+            card.classList.add(before ? 'drop-before' : 'drop-after');
+        }
+
+        // Single source of truth for the reorder: both input paths land here.
+        function commitDrop(targetId, before) {
+            if (!dragId || targetId === dragId) return;
+            const ids = visibleItems().map(i => i.id).filter(id => id !== dragId);
+            const at = ids.indexOf(targetId);
+            if (at === -1) return;
+            ids.splice(before ? at : at + 1, 0, dragId);
+
+            order = ids;
+            saveOrder();
+            renderInventory();
+            filterCards();
+        }
+
+        function endDrag() {
+            dragId = null;
+            document.querySelectorAll('.card').forEach(c => c.classList.remove('dragging'));
+            clearDropHints();
+        }
+
+        /* Mouse / trackpad */
+        document.addEventListener('dragstart', e => {
+            const card = e.target.closest('.card');
+            if (!card) return;
+            dragId = card.dataset.id;
+            card.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', dragId);
+        });
+
+        document.addEventListener('dragend', endDrag);
+
+        document.addEventListener('dragover', e => {
+            const card = e.target.closest('.card');
+            if (!card || !dragId || card.dataset.id === dragId) return;
+            e.preventDefault();
+            hintDrop(card, dropsBefore(card, e.clientX));
+        });
+
+        document.addEventListener('drop', e => {
+            const card = e.target.closest('.card');
+            if (!card || !dragId || card.dataset.id === dragId) return;
+            e.preventDefault();
+            commitDrop(card.dataset.id, dropsBefore(card, e.clientX));
+            clearDropHints();
+        });
+
+        /* Touch: HTML5 drag events never fire on touch, so track the pointer by hand.
+           Only the grip starts a drag, which leaves normal scrolling and tapping intact. */
+        let touchTarget = null;
+
+        function cardUnderPoint(x, y) {
+            const el = document.elementFromPoint(x, y);
+            return el ? el.closest('.card') : null;
+        }
+
+        document.addEventListener('touchstart', e => {
+            const grip = e.target.closest('.card-grip');
+            if (!grip) return;
+            const card = grip.closest('.card');
+            if (!card) return;
+            dragId = card.dataset.id;
+            touchTarget = null;
+            card.classList.add('dragging');
+        }, { passive: true });
+
+        document.addEventListener('touchmove', e => {
+            if (!dragId) return;
+            e.preventDefault();                       // hold the page still while dragging
+            const touch = e.touches[0];
+            const card = cardUnderPoint(touch.clientX, touch.clientY);
+            if (!card || card.dataset.id === dragId) { touchTarget = null; clearDropHints(); return; }
+            const before = dropsBefore(card, touch.clientX);
+            touchTarget = { id: card.dataset.id, before };
+            hintDrop(card, before);
+        }, { passive: false });
+
+        document.addEventListener('touchend', () => {
+            if (dragId && touchTarget) commitDrop(touchTarget.id, touchTarget.before);
+            touchTarget = null;
+            endDrag();
+        });
+
+        document.addEventListener('touchcancel', () => {
+            touchTarget = null;
+            endDrag();
+        });
+
+        /* --- VISITOR SHELF: add / edit / banish, this browser only --- */
+        function openModal(id = null) {
+            const form = document.getElementById('item-form');
+            form.reset();
+            const existing = id ? shelf.find(i => i.id === id) : null;
+
+            document.getElementById('item-id').value = existing ? existing.id : '';
+            document.getElementById('modal-heading').innerText = existing ? '> EDIT YOUR CARD' : '> MANIFEST NEW ITEM';
+            document.getElementById('delete-btn').style.display = existing ? 'block' : 'none';
+
+            if (existing) {
+                document.getElementById('item-title').value = existing.title;
+                document.getElementById('item-url').value = existing.url;
+                document.getElementById('item-desc').value = existing.description;
+                document.getElementById('item-blurb').value = existing.blurb || '';
+                document.getElementById('item-badge').value = existing.badge || '';
+                document.getElementById('item-action').value = existing.action || '';
+            }
+
+            document.getElementById('add-modal').style.display = 'flex';
+            document.getElementById('item-title').focus();
+        }
+
+        function closeModal() {
+            document.getElementById('add-modal').style.display = 'none';
+        }
+
+        function saveItem(event) {
+            event.preventDefault();
+            const id = document.getElementById('item-id').value;
+
+            const url = safeUrl(document.getElementById('item-url').value);
+            if (!url) {
+                logConsole('That link was not saved \u2014 enter a full address starting with http:// or https://');
+                return;
+            }
+
+            const entry = {
+                id: id || 'mine:' + Date.now().toString(36),
+                title: document.getElementById('item-title').value.trim(),
+                url: url,
+                description: document.getElementById('item-desc').value.trim(),
+                blurb: document.getElementById('item-blurb').value.trim(),
+                category: 'app',
+                badge: document.getElementById('item-badge').value.trim() || 'yours',
+                action: document.getElementById('item-action').value.trim() || 'OPEN'
+            };
+
+            const at = shelf.findIndex(i => i.id === entry.id);
+            if (at > -1) { shelf[at] = entry; } else { shelf.push(entry); }
+
+            saveShelf();
+            closeModal();
+            renderInventory();
+            filterCards();
+            logConsole(`Saved to this browser: ${entry.title}`);
+        }
+
+        function deleteCurrentItem() {
+            const id = document.getElementById('item-id').value;
+            const entry = shelf.find(i => i.id === id);
+            if (!entry) return;
+            if (!confirm(`Remove "${entry.title}" from this browser?`)) return;
+
+            shelf = shelf.filter(i => i.id !== id);
+            order = order.filter(x => x !== id);
+            saveShelf();
+            saveOrder();
+            closeModal();
+            renderInventory();
+            filterCards();
+            logConsole(`Removed: ${entry.title}`);
+        }
+
+        function clearShelf() {
+            if (!shelf.length) return;
+            if (!confirm(`Remove all ${shelf.length} of your saved cards and reset the grid order?`)) return;
+            shelf = [];
+            order = [];
+            localStorage.removeItem(SHELF_KEY);
+            localStorage.removeItem(ORDER_KEY);
+            renderInventory();
+            filterCards();
+            logConsole('Your cards were cleared from this browser.');
+        }
+
+        function filterCards() {
+            const input = document.getElementById('search-input');
+            const filter = input.value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+
+            cards.forEach(card => {
+                const keywords = card.getAttribute('data-name');
+                if (keywords.includes(filter)) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        drawSigil();
+        renderInventory();
+    </script>
+</body>
+</html>
