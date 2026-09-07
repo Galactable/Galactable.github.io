@@ -234,15 +234,13 @@
         }
 
         .masthead-sigil {
-            width: 1.35em;
-            height: 1.35em;
+            width: 1.8em;
+            height: 1.8em;
             flex: 0 0 auto;
             align-self: center;
             color: var(--green);
             filter: drop-shadow(0 0 4px var(--green-glow));
             overflow: visible;
-            opacity: 1;
-            transition: opacity 0.35s ease;
         }
 
         .masthead-sigil .sigil-ring {
@@ -1358,32 +1356,13 @@
         }
 
         const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const SIGIL_INTERVAL_MS = 3000;
 
-        // Fades the current sigil out, swaps in a freshly random one via drawSigil(),
-        // then fades back in. Runs on its own randomized loop below.
-        function cycleSigil() {
-            const targets = [
-                document.getElementById('masthead-sigil-l'),
-                document.getElementById('masthead-sigil-r')
-            ].filter(Boolean);
-            if (!targets.length) return;
-
-            targets.forEach(svg => { svg.style.opacity = '0'; });
-            setTimeout(() => {
-                drawSigil();
-                targets.forEach(svg => { svg.style.opacity = '1'; });
-            }, 350); // matches the CSS opacity transition duration
-        }
-
-        // Each firing reschedules itself with a fresh random delay, so the
-        // sigil reshapes at irregular intervals rather than a fixed tick.
+        // Swaps in a freshly random sigil every SIGIL_INTERVAL_MS, on the dot —
+        // a hard cut with no fade, no randomized timing.
         function scheduleSigilCycle() {
             if (reduceMotion) return;
-            const delay = 1500 + Math.random() * 2000;
-            setTimeout(() => {
-                cycleSigil();
-                scheduleSigilCycle();
-            }, delay);
+            setInterval(drawSigil, SIGIL_INTERVAL_MS);
         }
 
         /* Anything a visitor typed is untrusted text, not markup.
