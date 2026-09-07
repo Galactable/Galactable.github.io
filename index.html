@@ -242,7 +242,7 @@
             filter: drop-shadow(0 0 4px var(--green-glow));
             overflow: visible;
             opacity: 1;
-            transition: opacity 0.7s ease;
+            transition: opacity 0.35s ease;
         }
 
         .masthead-sigil .sigil-ring {
@@ -1103,12 +1103,10 @@
         // Reports only things that are actually true of this page right now.
         function cmdSysInfo() {
             const theme = (document.body.className || 'theme-void').replace('theme-', '').toUpperCase();
-            const sigil = window.sigilSpec
-                ? `${window.sigilSpec.points}-point / step ${window.sigilSpec.step}${window.sigilSpec.second ? ' + ' + window.sigilSpec.second : ''}`
-                : 'none';
+            const sigil = describeSigil(window.sigilSpec);
             const loaded = Math.round(performance.now());
             logConsole(
-                `LEY — ${CANON.length} tools indexed, ${shelf.length} of yours | sigil: ${sigil} (redrawn every load) ` +
+                `LEY — ${CANON.length} tools indexed, ${shelf.length} of yours | sigil: ${sigil} (reshapes on its own) ` +
                 `| theme: ${theme} | stored in this browser only | rendered in ${loaded}ms ` +
                 `| ${document.documentElement.clientWidth}×${document.documentElement.clientHeight}px | one file, no build step, no CDN scripts`
             );
@@ -1222,8 +1220,114 @@
             filterCards();
         }
 
-        // Draws a fresh sigil each load: N points evenly spaced on a ring,
-        // joined by a random step-pattern of chords. Every point stays connected.
+        // Shared geometry: every sigil kind below is built from a node list plus
+        // chords, and every kind must leave every node connected to the rest —
+        // that constraint is what makes it read as a sigil rather than dots.
+        const gcd = (a, b) => b ? gcd(b, a % b) : a;
+
+        function coprimeSteps(n) {
+            const steps = [];
+            for (let k = 2; k < n - 1; k++) {
+                if (gcd(k, n) === 1) steps.push(k);
+            }
+            return steps;
+        }
+
+        function ringNodes(count, radius) {
+            const nodes = [];
+            for (let i = 0; i < count; i++) {
+                const angle = (i / count) * Math.PI * 2 - Math.PI / 2;
+                nodes.push([(Math.cos(angle) * radius).toFixed(2), (Math.sin(angle) * radius).toFixed(2)]);
+            }
+            return nodes;
+        }
+
+        // A step coprime with the node count traces one unbroken path through
+        // every node in `nodes`, in whatever layout they're in.
+        function starPath(nodes, step) {
+            const n = nodes.length;
+            const d = [];
+            for (let i = 0; i <= n; i++) {
+                const [x, y] = nodes[(i * step) % n];
+                d.push((i ? 'L' : 'M') + x + ' ' + y);
+            }
+            return d.join(' ');
+        }
+
+        function nodeDots(nodes) {
+            return nodes.map(([x, y]) => `<circle class="sigil-node" cx="${x}" cy="${y}" r="3"></circle>`).join('');
+        }
+
+        // Points on one ring, joined by a random star-polygon chord pattern.
+        function sigilRing(pick) {
+            const points = pick([5, 7, 7, 8, 9, 11]);
+            const nodes = ringNodes(points, 38);
+            const steps = coprimeSteps(points);
+            const step = steps.length ? pick(steps) : 1;
+            const doubled = steps.length > 1 && Math.random() < 0.45;
+            const second = doubled ? pick(steps.filter(k => k !== step)) : null;
+
+            let markup = '<circle class="sigil-ring" cx="0" cy="0" r="38"></circle>';
+            markup += `<path class="sigil-chord" d="${starPath(nodes, step)}"></path>`;
+            if (second) markup += `<path class="sigil-chord" style="opacity:0.4" d="${starPath(nodes, second)}"></path>`;
+            markup += nodeDots(nodes);
+
+            return { markup, spec: { kind: 'ring', points, step, second } };
+        }
+
+        // An inner ring and an outer ring, each with their own star pattern,
+        // tied together with spokes so the two rings form one connected figure.
+        function sigilConcentric(pick) {
+            const outerCount = pick([6, 7, 8, 9]);
+            const innerCount = pick([3, 4, 5]);
+            const outer = ringNodes(outerCount, 38);
+            const inner = ringNodes(innerCount, 17);
+
+            const outerSteps = coprimeSteps(outerCount);
+            const outerStep = outerSteps.length ? pick(outerSteps) : 1;
+            const innerSteps = coprimeSteps(innerCount);
+            const innerStep = innerSteps.length ? pick(innerSteps) : 1;
+            const spokes = pick([2, 3]);
+
+            let markup = '<circle class="sigil-ring" cx="0" cy="0" r="38"></circle>';
+            markup += '<circle class="sigil-ring" cx="0" cy="0" r="17" style="opacity:0.5"></circle>';
+            markup += `<path class="sigil-chord" d="${starPath(outer, outerStep)}"></path>`;
+            markup += `<path class="sigil-chord" style="opacity:0.55" d="${starPath(inner, innerStep)}"></path>`;
+            for (let s = 0; s < spokes; s++) {
+                const [ox, oy] = outer[Math.floor((s / spokes) * outerCount)];
+                const [ix, iy] = inner[Math.floor((s / spokes) * innerCount)];
+                markup += `<path class="sigil-chord" style="opacity:0.6" d="M${ix} ${iy} L${ox} ${oy}"></path>`;
+            }
+            markup += nodeDots(outer.concat(inner));
+
+            return { markup, spec: { kind: 'concentric', outerCount, outerStep, innerCount, innerStep, spokes } };
+        }
+
+        // Nodes walking outward along a spiral (already one connected arm on
+        // their own), overlaid with a second star-polygon pass for cross-chords.
+        function sigilSpiral(pick) {
+            const points = pick([8, 9, 10, 11, 12]);
+            const turns = pick([1.3, 1.6, 1.9]);
+            const nodes = [];
+            for (let i = 0; i < points; i++) {
+                const t = i / (points - 1);
+                const angle = t * Math.PI * 2 * turns - Math.PI / 2;
+                const radius = 8 + t * 30;
+                nodes.push([(Math.cos(angle) * radius).toFixed(2), (Math.sin(angle) * radius).toFixed(2)]);
+            }
+            const arm = nodes.map((n, i) => (i ? 'L' : 'M') + n[0] + ' ' + n[1]).join(' ');
+            const steps = coprimeSteps(points);
+            const step = steps.length ? pick(steps) : 1;
+
+            let markup = '<circle class="sigil-ring" cx="0" cy="0" r="38"></circle>';
+            markup += `<path class="sigil-chord" d="${arm}"></path>`;
+            markup += `<path class="sigil-chord" style="opacity:0.4" d="${starPath(nodes, step)}"></path>`;
+            markup += nodeDots(nodes);
+
+            return { markup, spec: { kind: 'spiral', points, step, turns } };
+        }
+
+        // Draws a fresh sigil: picks one of the connected layouts above at random.
         function drawSigil() {
             const targets = [
                 document.getElementById('masthead-sigil-l'),
@@ -1232,51 +1336,25 @@
             if (!targets.length) return;
 
             const pick = arr => arr[Math.floor(Math.random() * arr.length)];
-            const points = pick([5, 7, 7, 8, 9, 11]);
-            const radius = 38;
-
-            // A step coprime with `points` traces one unbroken path through every node.
-            const gcd = (a, b) => b ? gcd(b, a % b) : a;
-            const steps = [];
-            for (let k = 2; k < points - 1; k++) {
-                if (gcd(k, points) === 1) steps.push(k);
-            }
-            const step = steps.length ? pick(steps) : 1;
-            const doubled = steps.length > 1 && Math.random() < 0.45;
-            const second = doubled ? pick(steps.filter(k => k !== step)) : null;
+            const generator = pick([sigilRing, sigilConcentric, sigilSpiral]);
+            const { markup, spec } = generator(pick);
 
             // sysinfo reads this so it can describe the sigil actually on screen.
-            window.sigilSpec = { points, step, second };
-
-            const node = i => {
-                const angle = (i / points) * Math.PI * 2 - Math.PI / 2;
-                return [
-                    (Math.cos(angle) * radius).toFixed(2),
-                    (Math.sin(angle) * radius).toFixed(2)
-                ];
-            };
-
-            const path = k => {
-                const d = [];
-                for (let i = 0; i <= points; i++) {
-                    const [x, y] = node((i * k) % points);
-                    d.push((i ? 'L' : 'M') + x + ' ' + y);
-                }
-                return d.join(' ');
-            };
-
-            let markup = '<circle class="sigil-ring" cx="0" cy="0" r="' + radius + '"></circle>';
-            markup += '<path class="sigil-chord" d="' + path(step) + '"></path>';
-            if (second) {
-                markup += '<path class="sigil-chord" style="opacity:0.4" d="' + path(second) + '"></path>';
-            }
-            for (let i = 0; i < points; i++) {
-                const [x, y] = node(i);
-                markup += '<circle class="sigil-node" cx="' + x + '" cy="' + y + '" r="3"></circle>';
-            }
+            window.sigilSpec = spec;
 
             // Same figure both sides; the right one is mirrored in CSS so they read as a pair.
             targets.forEach(svg => { svg.innerHTML = markup; });
+        }
+
+        function describeSigil(spec) {
+            if (!spec) return 'none';
+            if (spec.kind === 'concentric') {
+                return `${spec.outerCount}+${spec.innerCount}-point concentric / steps ${spec.outerStep}+${spec.innerStep}, ${spec.spokes} spokes`;
+            }
+            if (spec.kind === 'spiral') {
+                return `${spec.points}-point spiral / step ${spec.step}`;
+            }
+            return `${spec.points}-point ring / step ${spec.step}${spec.second ? ' + ' + spec.second : ''}`;
         }
 
         const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1294,14 +1372,14 @@
             setTimeout(() => {
                 drawSigil();
                 targets.forEach(svg => { svg.style.opacity = '1'; });
-            }, 700); // matches the CSS opacity transition duration
+            }, 350); // matches the CSS opacity transition duration
         }
 
         // Each firing reschedules itself with a fresh random delay, so the
         // sigil reshapes at irregular intervals rather than a fixed tick.
         function scheduleSigilCycle() {
             if (reduceMotion) return;
-            const delay = 6000 + Math.random() * 9000;
+            const delay = 1500 + Math.random() * 2000;
             setTimeout(() => {
                 cycleSigil();
                 scheduleSigilCycle();
