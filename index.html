@@ -227,10 +227,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 1.1rem;
+            gap: clamp(0.5rem, 3vw, 1.1rem);
             font-weight: 700;
-            font-size: 3.2rem;
-            letter-spacing: 6px;
+            font-size: clamp(2.1rem, 11vw, 3.2rem);
+            letter-spacing: clamp(3px, 1.5vw, 6px);
         }
 
         .masthead-sigil {
@@ -282,7 +282,8 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Locked to strict 3-column layout */
+            /* Fits as many ~260px columns as the viewport allows: 3 on desktop, 1 on a phone. */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.25rem;
             margin-top: 1rem;
         }
@@ -755,6 +756,68 @@
             border-radius: 2px;
         }
 
+
+        /* --- SMALL SCREENS --- */
+        @media (max-width: 720px) {
+            body {
+                padding: 1.5rem 1rem 6.5rem 1rem;   /* room for the fixed theme bar */
+            }
+
+            .grid {
+                gap: 1rem;
+            }
+
+            .card {
+                min-height: 0;                       /* let short cards be short */
+                padding: 1rem;
+            }
+
+            .card-blurb {
+                max-width: none;
+            }
+
+            .command-bar {
+                margin-top: 1.75rem;
+                gap: 0.5rem;
+            }
+
+            .input-wrapper {
+                flex-basis: 100%;                    /* search gets its own row */
+            }
+
+            .terminal-btn {
+                flex: 1 1 auto;
+                font-size: 0.72rem;
+                padding: 0.6rem 0.5rem;
+            }
+
+            /* Full-width bar instead of a floating box that sits on top of a card. */
+            .system-tray {
+                bottom: 0;
+                left: 0;
+                right: 0;
+                border-radius: 0;
+                border-width: 1px 0 0 0;
+                padding: 0.5rem 1rem;
+                display: flex;
+                align-items: center;
+                gap: 0.6rem;
+                background-color: var(--bg);
+            }
+
+            .theme-select {
+                flex-grow: 1;
+                min-width: 0;
+            }
+
+            .modal {
+                padding: 1.1rem;
+            }
+
+            .shelf-note {
+                font-size: 0.72rem;
+            }
+        }
     </style>
 </head>
 <body class="theme-amber">
