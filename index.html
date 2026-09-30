@@ -125,8 +125,8 @@
             --purple-glow: rgba(255, 0, 127, 0.4); --border: #2e084d;
             --crt-line: rgba(255, 0, 255, 0.025);
         }
-        /* --- POKEHEX SLIME & TORLINK THEME --- */
-        body.theme-pokehex {
+        /* --- HEXDEX SLIME & TORLINK THEME --- */
+        body.theme-hexdex {
             --bg: #030603; --surface: #081408; --surface-hover: #102610;
             --text-main: #39ff14; --text-dim: #1e7a0e; --amber: #9d4edd;
             --amber-glow: rgba(157, 78, 221, 0.4); --green: #39ff14;
@@ -842,7 +842,7 @@
             <option value="theme-solaris">SOLARIS_DEEP</option>
             <option value="theme-hacker-ice">HACKER_ICE</option>
             <option value="theme-arcade-neon">ARCADE_LASER</option>
-            <option value="theme-pokehex">POKEHEX_SLIME (SLIME &amp; TORLINK)</option>
+            <option value="theme-hexdex">HEXDEX_SLIME (SLIME &amp; TORLINK)</option>
         </select>
     </div>
 
@@ -907,7 +907,7 @@
                 <div class="cmd-item" onclick="execPaletteCmd('theme-solaris')"><span>Shift Theme: Solaris Deep</span><span>theme</span></div>
                 <div class="cmd-item" onclick="execPaletteCmd('theme-hacker-ice')"><span>Shift Theme: Hacker Ice</span><span>theme</span></div>
                 <div class="cmd-item" onclick="execPaletteCmd('theme-arcade-neon')"><span>Shift Theme: Arcade Laser</span><span>theme</span></div>
-                <div class="cmd-item" onclick="execPaletteCmd('theme-pokehex')"><span>Shift Theme: Pokéhex Slime &amp; Torlink</span><span>theme</span></div>
+                <div class="cmd-item" onclick="execPaletteCmd('theme-hexdex')"><span>Shift Theme: HexDex Slime &amp; Torlink</span><span>theme</span></div>
             </div>
         </div>
     </div>
@@ -997,9 +997,9 @@
             },
             {
                 id: "ley:phx",
-                title: "./phx",
-                url: "https://galactable.github.io/pokehex/",
-                description: "PokéHex market simulator",
+                title: "./hdx",
+                url: "https://hexdex.lol/",
+                description: "HexDex market simulator",
                 blurb: "Card-collecting game with a simulated market economy — prices move with supply, rarity and player trades.",
                 category: "game",
                 badge: "dungeon",
@@ -1054,6 +1054,11 @@
             localStorage.setItem(THEME_KEY, legacyTheme);
         }
         localStorage.removeItem('wizard_theme');
+
+        // The PokéHex theme was renamed along with the game.
+        if (localStorage.getItem(THEME_KEY) === 'theme-pokehex') {
+            localStorage.setItem(THEME_KEY, 'theme-hexdex');
+        }
 
         let currentTheme = localStorage.getItem(THEME_KEY) || 'theme-amber';
 
