@@ -12,7 +12,7 @@ from a CDN — the whole page is what you see in `index.html`.
 | [./fam](https://galactable.github.io/fam/) | Financial Allocation Monitor | Budget tracker built on a rolling pay cycle instead of a calendar month, for people paid weekly rather than monthly. Encrypted client-side, syncs across devices. |
 | [./rol](https://galactable.github.io/rol/) | Rolling Obligations Log | A rolling 2–4 week calendar with today at the top. Every day listed, repeating events, per-occurrence ticks. |
 | [./arc](https://arcrepo.pages.dev/) | Arcane Repo Courier | Carries HTML to your git repos on the fly using fine-grained personal access tokens. |
-| [./phx](https://galactable.github.io/pokehex/) | PokéHex | Card-collecting game with a simulated market economy — prices move with supply, rarity and player trades. |
+| [./hdx](https://hexdex.lol/) | HexDex | Card-collecting game with a simulated market economy — prices move with supply, rarity and player trades. |
 
 ## The page itself
 
